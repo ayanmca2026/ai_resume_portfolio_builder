@@ -10,8 +10,15 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from app.database.base import Base
 import app.models  # load all models
+from app.core.config import settings
 
 config = context.config
+
+db_url = settings.DATABASE_URL
+if db_url.startswith("postgres://") or db_url.startswith("postgresql://"):
+    db_url = db_url.replace("postgres://", "postgresql+psycopg://", 1).replace("postgresql://", "postgresql+psycopg://", 1)
+
+config.set_main_option("sqlalchemy.url", db_url)
 
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
