@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto space-y-8 animate-fade-in">
+    <div class="flex items-center justify-between">
+        <h1 class="text-4xl font-bold">Complete Your Career Profile</h1>
+        <a href="/dashboard" class="btn-secondary">Back to Dashboard</a>
+    </div>
+
+    <!-- Progress Indicator -->
+    <div class="glass-card p-6 rounded-xl border border-gray-800">
+        <div class="flex justify-between mb-2">
+            <span class="text-sm text-gray-400 font-semibold">PROFILE COMPLETION</span>
+            <span class="text-sm text-primary font-bold">{% if profile %}100%{% else %}20%{% endif %}</span>
+        </div>
+        <div class="w-full bg-gray-800 rounded-full h-2">
+            <div class="bg-primary h-2 rounded-full" style="width: {% if profile %}100%{% else %}20%{% endif %}"></div>
+        </div>
+    </div>
+
+    <form action="/profile" method="post" class="space-y-8">
+        <!-- Personal Info -->
+        <div class="glass-card p-6 rounded-xl border border-gray-800 space-y-4">
+            <h2 class="text-2xl font-bold text-gradient">Personal Information</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm text-gray-400 mb-1">Target Role</label>
+                    <input type="text" name="target_role" class="input-field w-full" value="{{ profile.target_role if profile else '' }}" placeholder="e.g. Senior Backend Engineer">
+                </div>
+                <div>
+                    <label class="block text-sm text-gray-400 mb-1">Location</label>
+                    <input type="text" name="location" class="input-field w-full" value="{{ profile.location if profile else '' }}" placeholder="City, Country">
+                </div>
+                <div>
+                    <label class="block text-sm text-gray-400 mb-1">Phone Number</label>
+                    <input type="tel" name="phone" class="input-field w-full" value="{{ profile.phone if profile else '' }}" placeholder="+1 234 567 8900">
+                </div>
+                <div>
+                    <label class="block text-sm text-gray-400 mb-1">LinkedIn URL</label>
+                    <input type="url" name="linkedin_url" class="input-field w-full" value="{{ profile.linkedin_url if profile else '' }}" placeholder="https://linkedin.com/in/you">
+                </div>
+                <div>
+                    <label class="block text-sm text-gray-400 mb-1">GitHub URL</label>
+                    <input type="url" name="github_url" class="input-field w-full" value="{{ profile.github_url if profile else '' }}" placeholder="https://github.com/you">
+                </div>
+                <div>
+                    <label class="block text-sm text-gray-400 mb-1">Portfolio URL</label>
+                    <input type="url" name="portfolio_url" class="input-field w-full" value="{{ profile.portfolio_url if profile else '' }}" placeholder="https://yourwebsite.com">
+                </div>
+            </div>
+            <div>
+                <label class="block text-sm text-gray-400 mb-1">Professional Summary / About</label>
+                <textarea name="professional_summary" class="input-field w-full h-32" placeholder="Brief overview of your career and skills...">{{ profile.professional_summary if profile else '' }}</textarea>
+            </div>
+        </div>
+
+        <button type="submit" class="btn-primary w-full py-4 text-lg font-bold">Save Profile</button>
+    </form>
+</div>
+{% endblock %}

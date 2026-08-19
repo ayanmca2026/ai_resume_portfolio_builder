@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto space-y-8 animate-fade-in">
+    <div class="flex items-center justify-between">
+        <h1 class="text-4xl font-bold">Add New Project</h1>
+        <a href="/projects" class="btn-secondary">Cancel</a>
+    </div>
+
+    <form action="/projects/new" method="post" class="space-y-6 glass-card p-8 rounded-xl border border-gray-800">
+        <div>
+            <label class="block text-sm text-gray-400 mb-1">Project Name *</label>
+            <input type="text" name="name" required class="input-field w-full" placeholder="e.g. AI Resume Builder">
+        </div>
+        
+        <div>
+            <label class="block text-sm text-gray-400 mb-1">Technologies (Comma separated)</label>
+            <input type="text" name="technologies" class="input-field w-full" placeholder="Python, FastAPI, React">
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <label class="block text-sm text-gray-400 mb-1">GitHub URL</label>
+                <input type="url" name="github_url" class="input-field w-full" placeholder="https://github.com/you/repo">
+            </div>
+            <div>
+                <label class="block text-sm text-gray-400 mb-1">Live URL</label>
+                <input type="url" name="live_url" class="input-field w-full" placeholder="https://myapp.com">
+            </div>
+        </div>
+
+        <div>
+            <label class="block text-sm text-gray-400 mb-1">Your Role</label>
+            <input type="text" name="role" class="input-field w-full" placeholder="e.g. Full Stack Developer">
+        </div>
+
+        <div>
+            <label class="block text-sm text-gray-400 mb-1">Problem / Description</label>
+            <textarea name="problem" class="input-field w-full h-24" placeholder="What problem does this project solve?"></textarea>
+        </div>
+
+        <div>
+            <label class="block text-sm text-gray-400 mb-1">Solution / Approach</label>
+            <textarea name="solution" class="input-field w-full h-24" placeholder="How did you solve it?"></textarea>
+        </div>
+
+        <button type="submit" class="btn-primary w-full py-4 text-lg font-bold">Save Project</button>
+    </form>
+</div>
+{% endblock %}

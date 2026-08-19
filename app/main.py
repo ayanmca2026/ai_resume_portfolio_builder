@@ -5,7 +5,7 @@ from app.core.config import settings
 from app.database.database import engine
 from app.database.base import Base
 # Routers
-from app.api import auth, dashboard, upload
+from app.api import auth, dashboard, upload, profile, projects
 from app.api.career_intelligence import router as intel_router
 
 # Create tables for now (until migrations are fully run)
@@ -18,6 +18,8 @@ templates = Jinja2Templates(directory="app/templates")
 
 app.include_router(auth.router, prefix="/auth", tags=["auth"])
 app.include_router(dashboard.router, prefix="/dashboard", tags=["dashboard"])
+app.include_router(profile.router, prefix="/profile", tags=["profile"])
+app.include_router(projects.router, prefix="/projects", tags=["projects"])
 app.include_router(upload.router, tags=["upload"])
 app.include_router(intel_router, prefix="/intelligence", tags=["intelligence"])
 
