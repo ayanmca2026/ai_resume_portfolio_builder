@@ -11,8 +11,8 @@ from app.ai.career_twin import build_career_twin
 router = APIRouter()
 templates = Jinja2Templates(directory="app/templates")
 
-@router.get("/", response_class=HTMLResponse, name="profile")
-async def view_profile(request: Request, db: Session = Depends(get_db), current_user: User = Depends(get_current_user_from_cookie)):
+@router.get("/", response_class=HTMLResponse, name="onboarding")
+async def view_onboarding(request: Request, db: Session = Depends(get_db), current_user: User = Depends(get_current_user_from_cookie)):
     profile = db.query(Profile).filter(Profile.user_id == current_user.id).first()
     return templates.TemplateResponse(request, "profile/index.html", {"request": request, "user": current_user, "profile": profile})
 
