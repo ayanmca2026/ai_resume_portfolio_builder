@@ -45,7 +45,49 @@ async def create_project(
     )
     db.add(project)
     db.commit()
-    
     build_career_twin(current_user.id, db)
-    
+    return RedirectResponse(url="/projects", status_code=303)
+
+@router.get("/{project_id}/edit", response_class=HTMLResponse)
+async def edit_project_page(project_id: int, request: Request, db: Session = Depends(get_db), current_user: User = Depends(get_current_user_from_cookie)):
+    project = db.query(Project).filter(Project.id == project_id, Project.user_id == current_user.id).first()
+    if not project:
+        return RedirectResponse(url="/projects", status_code=303)
+    return templates.TemplateResponse(request, "projects/edit.html", {"request": request, "user": current_user, "project": project})
+
+@router.post("/{project_id}/edit", response_class=HTMLResponse)
+async def update_project(
+    project_id: int,
+    request: Request,
+    name: str = Form(...),
+    problem: str = Form(None),
+    solution: str = Form(None),
+    technologies: str = Form(None),
+    github_url: str = Form(None),
+    live_url: str = Form(None),
+    role: str = Form(None),
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user_from_cookie)
+):
+    project = db.query(Project).filter(Project.id == project_id, Project.user_id == current_user.id).first()
+    if not project:
+        return RedirectResponse(url="/projects", status_code=303)
+    project.name = name
+    project.problem = problem
+    project.solution = solution
+    project.technologies = technologies
+    project.github_url = github_url
+    project.live_url = live_url
+    project.contribution = role
+    db.commit()
+    build_career_twin(current_user.id, db)
+    return RedirectResponse(url="/projects", status_code=303)
+
+@router.post("/{project_id}/delete", response_class=HTMLResponse)
+async def delete_project(project_id: int, request: Request, db: Session = Depends(get_db), current_user: User = Depends(get_current_user_from_cookie)):
+    project = db.query(Project).filter(Project.id == project_id, Project.user_id == current_user.id).first()
+    if project:
+        db.delete(project)
+        db.commit()
+        build_career_twin(current_user.id, db)
     return RedirectResponse(url="/projects", status_code=303)

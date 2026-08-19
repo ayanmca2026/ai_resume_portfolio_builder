@@ -1,60 +1,242 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="max-w-4xl mx-auto space-y-8 animate-fade-in">
-    <div class="flex items-center justify-between">
-        <h1 class="text-4xl font-bold">Complete Your Career Profile</h1>
-        <a href="/dashboard" class="btn-secondary">Back to Dashboard</a>
+<div class="animate-fade-in mx-auto max-w-4xl p-6">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold text-gradient">Build Your Profile</h1>
+        <a href="/dashboard" class="text-gray-400 hover:text-white transition">Back to Dashboard</a>
     </div>
 
-    <!-- Progress Indicator -->
-    <div class="glass-card p-6 rounded-xl border border-gray-800">
-        <div class="flex justify-between mb-2">
-            <span class="text-sm text-gray-400 font-semibold">PROFILE COMPLETION</span>
-            <span class="text-sm text-primary font-bold">{% if profile %}100%{% else %}20%{% endif %}</span>
-        </div>
-        <div class="w-full bg-gray-800 rounded-full h-2">
-            <div class="bg-primary h-2 rounded-full" style="width: {% if profile %}100%{% else %}20%{% endif %}"></div>
+    <div class="glass-card p-4 mb-6 text-center">
+        <p class="text-sm text-gray-300">Profile Completion</p>
+        <div class="w-full bg-gray-700 rounded-full h-2.5 mt-2">
+            <div class="bg-blue-500 h-2.5 rounded-full" style="width: 75%"></div>
         </div>
     </div>
 
-    <form action="/onboarding" method="post" class="space-y-8">
-        <!-- Personal Info -->
-        <div class="glass-card p-6 rounded-xl border border-gray-800 space-y-4">
-            <h2 class="text-2xl font-bold text-gradient">Personal Information</h2>
+    <form action="/onboarding" method="POST" id="profileForm" class="space-y-8">
+        
+        <!-- Personal Information -->
+        <div class="glass-card p-6">
+            <h2 class="text-xl font-semibold mb-4 text-white">Personal Information</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <label class="block text-sm text-gray-400 mb-1">Target Role</label>
-                    <input type="text" name="target_role" class="input-field w-full" value="{{ profile.target_role if profile else '' }}" placeholder="e.g. Senior Backend Engineer">
+                    <label class="block text-sm text-gray-400 mb-1">Phone</label>
+                    <input type="text" name="phone" value="{{ profile.phone if profile else '' }}" class="input-field w-full">
                 </div>
                 <div>
                     <label class="block text-sm text-gray-400 mb-1">Location</label>
-                    <input type="text" name="location" class="input-field w-full" value="{{ profile.location if profile else '' }}" placeholder="City, Country">
-                </div>
-                <div>
-                    <label class="block text-sm text-gray-400 mb-1">Phone Number</label>
-                    <input type="tel" name="phone" class="input-field w-full" value="{{ profile.phone if profile else '' }}" placeholder="+1 234 567 8900">
+                    <input type="text" name="location" value="{{ profile.location if profile else '' }}" class="input-field w-full">
                 </div>
                 <div>
                     <label class="block text-sm text-gray-400 mb-1">LinkedIn URL</label>
-                    <input type="url" name="linkedin_url" class="input-field w-full" value="{{ profile.linkedin_url if profile else '' }}" placeholder="https://linkedin.com/in/you">
+                    <input type="url" name="linkedin_url" value="{{ profile.linkedin_url if profile else '' }}" class="input-field w-full">
                 </div>
                 <div>
                     <label class="block text-sm text-gray-400 mb-1">GitHub URL</label>
-                    <input type="url" name="github_url" class="input-field w-full" value="{{ profile.github_url if profile else '' }}" placeholder="https://github.com/you">
+                    <input type="url" name="github_url" value="{{ profile.github_url if profile else '' }}" class="input-field w-full">
                 </div>
                 <div>
                     <label class="block text-sm text-gray-400 mb-1">Portfolio URL</label>
-                    <input type="url" name="portfolio_url" class="input-field w-full" value="{{ profile.portfolio_url if profile else '' }}" placeholder="https://yourwebsite.com">
+                    <input type="url" name="portfolio_url" value="{{ profile.portfolio_url if profile else '' }}" class="input-field w-full">
                 </div>
-            </div>
-            <div>
-                <label class="block text-sm text-gray-400 mb-1">Professional Summary / About</label>
-                <textarea name="professional_summary" class="input-field w-full h-32" placeholder="Brief overview of your career and skills...">{{ profile.professional_summary if profile else '' }}</textarea>
+                <div>
+                    <label class="block text-sm text-gray-400 mb-1">Target Role</label>
+                    <input type="text" name="target_role" value="{{ profile.target_role if profile else '' }}" class="input-field w-full">
+                </div>
+                <div>
+                    <label class="block text-sm text-gray-400 mb-1">Industry</label>
+                    <input type="text" name="industry" value="{{ profile.industry if profile else '' }}" class="input-field w-full">
+                </div>
+                <div>
+                    <label class="block text-sm text-gray-400 mb-1">Experience Level</label>
+                    <input type="text" name="experience_level" value="{{ profile.experience_level if profile else '' }}" class="input-field w-full">
+                </div>
+                <div class="md:col-span-2">
+                    <label class="block text-sm text-gray-400 mb-1">Professional Summary</label>
+                    <textarea name="professional_summary" class="input-field w-full h-24">{{ profile.professional_summary if profile else '' }}</textarea>
+                </div>
             </div>
         </div>
 
-        <button type="submit" class="btn-primary w-full py-4 text-lg font-bold">Save Profile</button>
+        <!-- Education -->
+        <div class="glass-card p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-semibold text-white">Education</h2>
+                <button type="button" onclick="addRow('education-container', 'education-template')" class="btn-secondary text-sm px-3 py-1">+ Add Education</button>
+            </div>
+            <div id="education-container" class="space-y-4">
+                {% for edu in educations %}
+                <div class="education-row border border-gray-700 rounded p-4 relative group">
+                    <button type="button" onclick="this.parentElement.remove()" class="absolute top-2 right-2 text-red-400 hover:text-red-300">✕</button>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <input type="text" name="edu_degree[]" value="{{ edu.degree }}" placeholder="Degree" class="input-field w-full" required>
+                        <input type="text" name="edu_university[]" value="{{ edu.university }}" placeholder="University" class="input-field w-full">
+                        <input type="text" name="edu_department[]" value="{{ edu.department }}" placeholder="Department" class="input-field w-full">
+                        <input type="text" name="edu_cgpa[]" value="{{ edu.cgpa }}" placeholder="CGPA" class="input-field w-full">
+                        <input type="text" name="edu_graduation_year[]" value="{{ edu.graduation_year }}" placeholder="Graduation Year" class="input-field w-full">
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Skills -->
+        <div class="glass-card p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-semibold text-white">Skills</h2>
+                <button type="button" onclick="addRow('skills-container', 'skill-template')" class="btn-secondary text-sm px-3 py-1">+ Add Skill</button>
+            </div>
+            <div id="skills-container" class="space-y-4">
+                {% for skill in skills %}
+                <div class="skill-row flex gap-4 items-center border border-gray-700 rounded p-2 relative group">
+                    <input type="text" name="skill_name[]" value="{{ skill.name }}" placeholder="Skill Name" class="input-field flex-1" required>
+                    <input type="text" name="skill_category[]" value="{{ skill.category }}" placeholder="Category" class="input-field flex-1">
+                    <button type="button" onclick="this.parentElement.remove()" class="text-red-400 hover:text-red-300 px-2">✕</button>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Experience -->
+        <div class="glass-card p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-semibold text-white">Experience</h2>
+                <button type="button" onclick="addRow('experience-container', 'experience-template')" class="btn-secondary text-sm px-3 py-1">+ Add Experience</button>
+            </div>
+            <div id="experience-container" class="space-y-4">
+                {% for exp in experiences %}
+                <div class="experience-row border border-gray-700 rounded p-4 relative group">
+                    <button type="button" onclick="this.parentElement.remove()" class="absolute top-2 right-2 text-red-400 hover:text-red-300">✕</button>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <input type="text" name="exp_company[]" value="{{ exp.company }}" placeholder="Company" class="input-field w-full" required>
+                        <input type="text" name="exp_role[]" value="{{ exp.role }}" placeholder="Role" class="input-field w-full">
+                        <input type="text" name="exp_duration[]" value="{{ exp.duration }}" placeholder="Duration (e.g., 2020-2022)" class="input-field w-full">
+                        <div class="md:col-span-2">
+                            <textarea name="exp_responsibilities[]" placeholder="Responsibilities" class="input-field w-full h-20">{{ exp.responsibilities }}</textarea>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Certifications -->
+        <div class="glass-card p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-semibold text-white">Certifications</h2>
+                <button type="button" onclick="addRow('cert-container', 'cert-template')" class="btn-secondary text-sm px-3 py-1">+ Add Certification</button>
+            </div>
+            <div id="cert-container" class="space-y-4">
+                {% for cert in certifications %}
+                <div class="cert-row border border-gray-700 rounded p-4 relative group">
+                    <button type="button" onclick="this.parentElement.remove()" class="absolute top-2 right-2 text-red-400 hover:text-red-300">✕</button>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <input type="text" name="cert_name[]" value="{{ cert.name }}" placeholder="Certification Name" class="input-field w-full" required>
+                        <input type="text" name="cert_issuer[]" value="{{ cert.issuer }}" placeholder="Issuer" class="input-field w-full">
+                        <input type="text" name="cert_year[]" value="{{ cert.year }}" placeholder="Year" class="input-field w-full">
+                        <input type="url" name="cert_url[]" value="{{ cert.url }}" placeholder="URL" class="input-field w-full">
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Achievements -->
+        <div class="glass-card p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-semibold text-white">Achievements</h2>
+                <button type="button" onclick="addRow('ach-container', 'ach-template')" class="btn-secondary text-sm px-3 py-1">+ Add Achievement</button>
+            </div>
+            <div id="ach-container" class="space-y-4">
+                {% for ach in achievements %}
+                <div class="ach-row border border-gray-700 rounded p-4 relative group">
+                    <button type="button" onclick="this.parentElement.remove()" class="absolute top-2 right-2 text-red-400 hover:text-red-300">✕</button>
+                    <div class="grid grid-cols-1 gap-4">
+                        <input type="text" name="ach_title[]" value="{{ ach.title }}" placeholder="Achievement Title" class="input-field w-full" required>
+                        <div class="md:col-span-1 grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <input type="text" name="ach_year[]" value="{{ ach.year }}" placeholder="Year" class="input-field w-full">
+                        </div>
+                        <textarea name="ach_description[]" placeholder="Description" class="input-field w-full h-16">{{ ach.description }}</textarea>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="flex justify-end pt-4 pb-12">
+            <button type="submit" class="btn-primary px-8 py-3 text-lg font-bold">Save Profile</button>
+        </div>
     </form>
 </div>
+
+<!-- Templates for JS -->
+<template id="education-template">
+    <div class="education-row border border-gray-700 rounded p-4 relative group animate-fade-in">
+        <button type="button" onclick="this.parentElement.remove()" class="absolute top-2 right-2 text-red-400 hover:text-red-300">✕</button>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <input type="text" name="edu_degree[]" placeholder="Degree" class="input-field w-full" required>
+            <input type="text" name="edu_university[]" placeholder="University" class="input-field w-full">
+            <input type="text" name="edu_department[]" placeholder="Department" class="input-field w-full">
+            <input type="text" name="edu_cgpa[]" placeholder="CGPA" class="input-field w-full">
+            <input type="text" name="edu_graduation_year[]" placeholder="Graduation Year" class="input-field w-full">
+        </div>
+    </div>
+</template>
+
+<template id="skill-template">
+    <div class="skill-row flex gap-4 items-center border border-gray-700 rounded p-2 relative group animate-fade-in">
+        <input type="text" name="skill_name[]" placeholder="Skill Name" class="input-field flex-1" required>
+        <input type="text" name="skill_category[]" placeholder="Category" class="input-field flex-1">
+        <button type="button" onclick="this.parentElement.remove()" class="text-red-400 hover:text-red-300 px-2">✕</button>
+    </div>
+</template>
+
+<template id="experience-template">
+    <div class="experience-row border border-gray-700 rounded p-4 relative group animate-fade-in">
+        <button type="button" onclick="this.parentElement.remove()" class="absolute top-2 right-2 text-red-400 hover:text-red-300">✕</button>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <input type="text" name="exp_company[]" placeholder="Company" class="input-field w-full" required>
+            <input type="text" name="exp_role[]" placeholder="Role" class="input-field w-full">
+            <input type="text" name="exp_duration[]" placeholder="Duration (e.g., 2020-2022)" class="input-field w-full">
+            <div class="md:col-span-2">
+                <textarea name="exp_responsibilities[]" placeholder="Responsibilities" class="input-field w-full h-20"></textarea>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="cert-template">
+    <div class="cert-row border border-gray-700 rounded p-4 relative group animate-fade-in">
+        <button type="button" onclick="this.parentElement.remove()" class="absolute top-2 right-2 text-red-400 hover:text-red-300">✕</button>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <input type="text" name="cert_name[]" placeholder="Certification Name" class="input-field w-full" required>
+            <input type="text" name="cert_issuer[]" placeholder="Issuer" class="input-field w-full">
+            <input type="text" name="cert_year[]" placeholder="Year" class="input-field w-full">
+            <input type="url" name="cert_url[]" placeholder="URL" class="input-field w-full">
+        </div>
+    </div>
+</template>
+
+<template id="ach-template">
+    <div class="ach-row border border-gray-700 rounded p-4 relative group animate-fade-in">
+        <button type="button" onclick="this.parentElement.remove()" class="absolute top-2 right-2 text-red-400 hover:text-red-300">✕</button>
+        <div class="grid grid-cols-1 gap-4">
+            <input type="text" name="ach_title[]" placeholder="Achievement Title" class="input-field w-full" required>
+            <div class="md:col-span-1 grid grid-cols-1 md:grid-cols-2 gap-4">
+                <input type="text" name="ach_year[]" placeholder="Year" class="input-field w-full">
+            </div>
+            <textarea name="ach_description[]" placeholder="Description" class="input-field w-full h-16"></textarea>
+        </div>
+    </div>
+</template>
+
+<script>
+function addRow(containerId, templateId) {
+    const container = document.getElementById(containerId);
+    const template = document.getElementById(templateId);
+    const clone = template.content.cloneNode(true);
+    container.appendChild(clone);
+}
+</script>
 {% endblock %}

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="glass-card max-w-3xl mx-auto mt-10 p-8">
+    <h1 class="text-3xl font-bold text-gradient mb-6">ATS Scanner</h1>
+    <p class="text-gray-300 mb-6">Paste the job description below to see how well your resume matches.</p>
+    
+    {% if error %}
+    <div class="bg-red-500/20 border border-red-500 text-red-100 p-4 rounded mb-6">
+        {{ error }}
+    </div>
+    {% endif %}
+
+    <form action="/ats/scan" method="post" class="space-y-6">
+        <div>
+            <label for="job_description" class="block text-sm font-medium text-gray-300 mb-2">Job Description</label>
+            <textarea name="job_description" id="job_description" rows="10" class="input-field w-full p-4 h-64 bg-gray-800 text-white border border-gray-700 rounded focus:ring focus:ring-blue-500" required placeholder="Paste the full job description here..."></textarea>
+        </div>
+        <button type="submit" class="btn-primary w-full py-3 rounded text-white font-bold bg-blue-600 hover:bg-blue-700 transition">Scan Resume</button>
+    </form>
+</div>
+{% endblock %}

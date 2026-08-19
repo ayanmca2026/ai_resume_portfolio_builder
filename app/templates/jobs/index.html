@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="glass-card p-6">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold text-gradient">Job Applications</h2>
+        <a href="/jobs/new" class="btn-primary">Add New Application</a>
+    </div>
+
+    {% if jobs %}
+    <div class="space-y-4">
+        {% for job in jobs %}
+        <div class="glass-card p-4 flex justify-between items-center">
+            <div>
+                <h3 class="text-xl font-bold">{{ job.role }} at {{ job.company }}</h3>
+                <p class="text-sm opacity-80">{{ job.location }}</p>
+                {% if job.job_url %}
+                <a href="{{ job.job_url }}" target="_blank" class="text-blue-400 hover:underline text-sm">View Job Posting</a>
+                {% endif %}
+            </div>
+            <div class="flex items-center space-x-4">
+                <span class="px-3 py-1 rounded-full bg-gray-800 border border-gray-600 text-sm">{{ job.status }}</span>
+                <form method="POST" action="/jobs/{{ job.id }}/delete">
+                    <button type="submit" class="btn-secondary text-sm">Delete</button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p>No job applications tracked yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

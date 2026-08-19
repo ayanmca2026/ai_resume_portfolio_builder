@@ -4,34 +4,96 @@
 <div class="flex flex-col space-y-8 animate-fade-in">
     <header class="flex justify-between items-end">
         <div>
-            <h1 class="text-4xl font-bold">Good evening, {{ user.full_name }}</h1>
-            <p class="text-gray-400 mt-2">Welcome to your Career Command Center.</p>
+            <h1 class="text-4xl font-bold">Welcome, {{ user.full_name }}</h1>
+            <p class="text-gray-400 mt-2">Your Career Command Center.</p>
         </div>
         <a href="/onboarding" class="btn-primary">Complete Profile</a>
     </header>
 
+    <!-- Metrics -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <div class="glass-card p-6 rounded-xl border border-gray-800">
             <h3 class="text-sm text-gray-400 mb-2">Career Readiness</h3>
-            <div class="text-3xl font-bold text-gradient">15%</div>
+            <div class="text-3xl font-bold text-gradient">{{ career_readiness }}%</div>
             <div class="w-full bg-gray-800 rounded-full h-2 mt-4">
-                <div class="bg-primary h-2 rounded-full" style="width: 15%"></div>
+                <div class="bg-primary h-2 rounded-full" style="width: {{ career_readiness }}%"></div>
             </div>
         </div>
         <div class="glass-card p-6 rounded-xl border border-gray-800">
             <h3 class="text-sm text-gray-400 mb-2">Resume Score</h3>
+            {% if resume_score %}
+            <div class="text-3xl font-bold text-gradient">{{ resume_score }}%</div>
+            {% else %}
             <div class="text-3xl font-bold">--</div>
-            <p class="text-xs text-gray-500 mt-2">Generate a resume first</p>
-        </div>
-        <div class="glass-card p-6 rounded-xl border border-gray-800">
-            <h3 class="text-sm text-gray-400 mb-2">Portfolio Score</h3>
-            <div class="text-3xl font-bold">--</div>
-            <p class="text-xs text-gray-500 mt-2">Build a portfolio first</p>
+            <p class="text-xs text-gray-500 mt-2"><a href="/resume/build" class="text-primary hover:underline">Build a resume</a></p>
+            {% endif %}
         </div>
         <div class="glass-card p-6 rounded-xl border border-gray-800">
             <h3 class="text-sm text-gray-400 mb-2">Profile Strength</h3>
-            <div class="text-3xl font-bold">20%</div>
-            <p class="text-xs text-gray-500 mt-2">Add more details</p>
+            <div class="text-3xl font-bold text-gradient">{{ profile_strength }}%</div>
+            <div class="w-full bg-gray-800 rounded-full h-2 mt-4">
+                <div class="bg-primary h-2 rounded-full" style="width: {{ profile_strength }}%"></div>
+            </div>
+        </div>
+        <div class="glass-card p-6 rounded-xl border border-gray-800">
+            <h3 class="text-sm text-gray-400 mb-2">Projects</h3>
+            <div class="text-3xl font-bold">{{ project_count }}</div>
+            <p class="text-xs text-gray-500 mt-2">{{ skill_count }} skills &middot; {{ app_count }} applications</p>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div>
+        <h2 class="text-2xl font-bold mb-4">Quick Actions</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <a href="/onboarding" class="glass-card p-5 rounded-xl border border-gray-800 hover:border-primary transition group">
+                <div class="text-lg font-semibold group-hover:text-primary transition">📝 Complete Profile</div>
+                <p class="text-sm text-gray-400 mt-1">Add education, skills, experience &amp; more</p>
+            </a>
+            <a href="/projects" class="glass-card p-5 rounded-xl border border-gray-800 hover:border-primary transition group">
+                <div class="text-lg font-semibold group-hover:text-primary transition">🚀 Manage Projects</div>
+                <p class="text-sm text-gray-400 mt-1">Add, edit, or remove projects</p>
+            </a>
+            <a href="/resume" class="glass-card p-5 rounded-xl border border-gray-800 hover:border-primary transition group">
+                <div class="text-lg font-semibold group-hover:text-primary transition">📄 Build Resume</div>
+                <p class="text-sm text-gray-400 mt-1">Generate AI-powered resumes</p>
+            </a>
+            <a href="/ats" class="glass-card p-5 rounded-xl border border-gray-800 hover:border-primary transition group">
+                <div class="text-lg font-semibold group-hover:text-primary transition">🎯 ATS Scanner</div>
+                <p class="text-sm text-gray-400 mt-1">Check resume against job descriptions</p>
+            </a>
+            <a href="/cover-letter" class="glass-card p-5 rounded-xl border border-gray-800 hover:border-primary transition group">
+                <div class="text-lg font-semibold group-hover:text-primary transition">✉️ Cover Letter</div>
+                <p class="text-sm text-gray-400 mt-1">Generate personalized cover letters</p>
+            </a>
+            <a href="/portfolio" class="glass-card p-5 rounded-xl border border-gray-800 hover:border-primary transition group">
+                <div class="text-lg font-semibold group-hover:text-primary transition">🌐 Portfolio</div>
+                <p class="text-sm text-gray-400 mt-1">Build your developer portfolio</p>
+            </a>
+            <a href="/career" class="glass-card p-5 rounded-xl border border-gray-800 hover:border-primary transition group">
+                <div class="text-lg font-semibold group-hover:text-primary transition">📊 Career Tools</div>
+                <p class="text-sm text-gray-400 mt-1">Score, roadmap, skill gap analysis</p>
+            </a>
+            <a href="/career/coach" class="glass-card p-5 rounded-xl border border-gray-800 hover:border-primary transition group">
+                <div class="text-lg font-semibold group-hover:text-primary transition">🤖 AI Career Coach</div>
+                <p class="text-sm text-gray-400 mt-1">Get personalized career advice</p>
+            </a>
+            <a href="/career/interview" class="glass-card p-5 rounded-xl border border-gray-800 hover:border-primary transition group">
+                <div class="text-lg font-semibold group-hover:text-primary transition">🎤 Interview Prep</div>
+                <p class="text-sm text-gray-400 mt-1">Practice with AI interview simulator</p>
+            </a>
+            <a href="/jobs" class="glass-card p-5 rounded-xl border border-gray-800 hover:border-primary transition group">
+                <div class="text-lg font-semibold group-hover:text-primary transition">💼 Application Tracker</div>
+                <p class="text-sm text-gray-400 mt-1">Track your job applications</p>
+            </a>
+            <a href="/command-center" class="glass-card p-5 rounded-xl border border-gray-800 hover:border-primary transition group">
+                <div class="text-lg font-semibold group-hover:text-primary transition">⚡ Command Center</div>
+                <p class="text-sm text-gray-400 mt-1">AI-powered career commands</p>
+            </a>
+            <a href="/upload/resume" class="glass-card p-5 rounded-xl border border-gray-800 hover:border-primary transition group">
+                <div class="text-lg font-semibold group-hover:text-primary transition">📤 Upload Resume</div>
+                <p class="text-sm text-gray-400 mt-1">Import your existing resume</p>
+            </a>
         </div>
     </div>
 </div>

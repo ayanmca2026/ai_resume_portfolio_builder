@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="glass-card p-6 max-w-2xl mx-auto">
+    <h2 class="text-2xl font-bold mb-6 text-gradient">Add Job Application</h2>
+    
+    <form method="POST" action="/jobs/new" class="space-y-4">
+        <div>
+            <label class="block mb-1">Company *</label>
+            <input type="text" name="company" required class="input-field w-full p-2 rounded">
+        </div>
+        <div>
+            <label class="block mb-1">Role *</label>
+            <input type="text" name="role" required class="input-field w-full p-2 rounded">
+        </div>
+        <div>
+            <label class="block mb-1">Location</label>
+            <input type="text" name="location" class="input-field w-full p-2 rounded">
+        </div>
+        <div>
+            <label class="block mb-1">Job URL</label>
+            <input type="url" name="job_url" class="input-field w-full p-2 rounded">
+        </div>
+        <div>
+            <label class="block mb-1">Status</label>
+            <select name="status" class="input-field w-full p-2 rounded bg-gray-800">
+                <option value="Saved">Saved</option>
+                <option value="Applied">Applied</option>
+                <option value="Interviewing">Interviewing</option>
+                <option value="Offer">Offer</option>
+                <option value="Rejected">Rejected</option>
+            </select>
+        </div>
+        <div>
+            <label class="block mb-1">Job Description</label>
+            <textarea name="job_description" class="input-field w-full p-2 rounded" rows="4"></textarea>
+        </div>
+        <div>
+            <label class="block mb-1">Notes</label>
+            <textarea name="notes" class="input-field w-full p-2 rounded" rows="2"></textarea>
+        </div>
+        <div class="pt-4">
+            <button type="submit" class="btn-primary w-full">Save Application</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

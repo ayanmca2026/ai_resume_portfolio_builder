@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="glass-card max-w-3xl mx-auto mt-10 p-8">
+    <h1 class="text-3xl font-bold text-gradient mb-6">Cover Letter Generator</h1>
+    <p class="text-gray-300 mb-8">Fill in the details below to generate a tailored cover letter based on your career profile.</p>
+    
+    <form action="/cover-letter/generate" method="post" class="space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <label for="company" class="block text-sm font-medium text-gray-300 mb-2">Company Name</label>
+                <input type="text" name="company" id="company" class="input-field w-full p-3 bg-gray-800 text-white border border-gray-700 rounded focus:ring focus:ring-blue-500" required placeholder="e.g. Acme Corp">
+            </div>
+            <div>
+                <label for="target_role" class="block text-sm font-medium text-gray-300 mb-2">Target Role</label>
+                <input type="text" name="target_role" id="target_role" class="input-field w-full p-3 bg-gray-800 text-white border border-gray-700 rounded focus:ring focus:ring-blue-500" required placeholder="e.g. Senior Developer">
+            </div>
+        </div>
+        
+        <div>
+            <label for="job_description" class="block text-sm font-medium text-gray-300 mb-2">Job Description</label>
+            <textarea name="job_description" id="job_description" rows="8" class="input-field w-full p-4 bg-gray-800 text-white border border-gray-700 rounded focus:ring focus:ring-blue-500" required placeholder="Paste the job description here..."></textarea>
+        </div>
+        
+        <button type="submit" class="btn-primary w-full py-3 rounded text-white font-bold bg-blue-600 hover:bg-blue-700 transition">Generate Cover Letter</button>
+    </form>
+</div>
+{% endblock %}

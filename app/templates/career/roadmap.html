@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="glass-card p-6">
+    <h2 class="text-2xl font-bold mb-4 text-gradient">Career Roadmap</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="glass-card p-4">
+            <h3 class="text-xl font-bold text-gradient mb-2">30 Days</h3>
+            <p>{{ roadmap['30_days'] }}</p>
+        </div>
+        <div class="glass-card p-4">
+            <h3 class="text-xl font-bold text-gradient mb-2">60 Days</h3>
+            <p>{{ roadmap['60_days'] }}</p>
+        </div>
+        <div class="glass-card p-4">
+            <h3 class="text-xl font-bold text-gradient mb-2">90 Days</h3>
+            <p>{{ roadmap['90_days'] }}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

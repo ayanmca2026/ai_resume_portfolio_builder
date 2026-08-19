@@ -15,7 +15,7 @@
         <div class="glass-card p-6 rounded-xl border border-gray-800 flex flex-col justify-between">
             <div>
                 <h3 class="text-2xl font-bold text-gradient mb-2">{{ project.name }}</h3>
-                <p class="text-gray-400 text-sm mb-4">{{ project.problem }}</p>
+                <p class="text-gray-400 text-sm mb-4">{{ project.problem or 'No description yet' }}</p>
                 <div class="flex flex-wrap gap-2 mb-4">
                     {% if project.technologies %}
                         {% for tech in project.technologies.split(',') %}
@@ -24,13 +24,21 @@
                     {% endif %}
                 </div>
             </div>
-            <div class="flex space-x-3 mt-4">
-                {% if project.github_url %}
-                <a href="{{ project.github_url }}" target="_blank" class="text-sm text-gray-400 hover:text-white underline">GitHub</a>
-                {% endif %}
-                {% if project.live_url %}
-                <a href="{{ project.live_url }}" target="_blank" class="text-sm text-primary hover:underline">Live Demo</a>
-                {% endif %}
+            <div class="flex items-center justify-between mt-4">
+                <div class="flex space-x-3">
+                    {% if project.github_url %}
+                    <a href="{{ project.github_url }}" target="_blank" class="text-sm text-gray-400 hover:text-white underline">GitHub</a>
+                    {% endif %}
+                    {% if project.live_url %}
+                    <a href="{{ project.live_url }}" target="_blank" class="text-sm text-primary hover:underline">Live Demo</a>
+                    {% endif %}
+                </div>
+                <div class="flex space-x-3">
+                    <a href="/projects/{{ project.id }}/edit" class="text-sm text-blue-400 hover:text-blue-300">Edit</a>
+                    <form action="/projects/{{ project.id }}/delete" method="post" style="display:inline">
+                        <button type="submit" class="text-sm text-red-400 hover:text-red-300" onclick="return confirm('Delete this project?')">Delete</button>
+                    </form>
+                </div>
             </div>
         </div>
         {% else %}

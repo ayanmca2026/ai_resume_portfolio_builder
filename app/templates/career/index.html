@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="glass-card p-6">
+    <h2 class="text-2xl font-bold mb-4 text-gradient">Career Dashboard</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="glass-card p-4">
+            <h3 class="text-xl">Overall Score</h3>
+            <p class="text-3xl font-bold text-gradient">{{ score.overall }}</p>
+        </div>
+        <div class="glass-card p-4">
+            <h3 class="text-xl">Skills Score</h3>
+            <p class="text-3xl font-bold text-gradient">{{ score.skills_score }}</p>
+        </div>
+        <div class="glass-card p-4">
+            <h3 class="text-xl">Experience Score</h3>
+            <p class="text-3xl font-bold text-gradient">{{ score.experience_score }}</p>
+        </div>
+    </div>
+    <div class="mt-6">
+        <h3 class="text-xl mb-2">Feedback</h3>
+        <ul class="list-disc pl-5 space-y-1">
+            {% for f in score.feedback %}
+            <li>{{ f }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

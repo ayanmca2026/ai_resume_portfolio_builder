@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="glass-card p-6">
+    <h2 class="text-2xl font-bold mb-4 text-gradient">Skill Gap Analysis</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="glass-card p-4 border-l-4 border-green-500">
+            <h3 class="text-xl font-bold text-green-400 mb-2">Strong Skills</h3>
+            <ul class="list-disc pl-5">
+                {% for skill in gap.strong %}
+                <li>{{ skill }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="glass-card p-4 border-l-4 border-red-500">
+            <h3 class="text-xl font-bold text-red-400 mb-2">Missing Skills</h3>
+            <ul class="list-disc pl-5">
+                {% for skill in gap.missing %}
+                <li>{{ skill }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="mt-6 glass-card p-4">
+        <h3 class="text-xl font-bold mb-2">Priority</h3>
+        <p class="mb-4">{{ gap.priority }}</p>
+        <h3 class="text-xl font-bold mb-2">Recommendations</h3>
+        <p>{{ gap.recommendations }}</p>
+    </div>
+</div>
+{% endblock %}
