@@ -1,12 +1,12 @@
 import os
 import io
-import fitz  # PyMuPDF
+import pymupdf
 from docx import Document
 from typing import Optional
 
 def extract_pdf_text(file_bytes: bytes) -> str:
     try:
-        doc = fitz.open("pdf", file_bytes)
+        doc = pymupdf.open("pdf", file_bytes)
         text = ""
         for page in doc:
             text += page.get_text()
