@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="hero flex flex-col items-center justify-center text-center py-32 space-y-8 animate-fade-in">
+    <div class="badge">🚀 v1.0 Launch</div>
+    <h1 class="text-6xl font-extrabold tracking-tight">YOUR CAREER.<br><span class="text-gradient">ENGINEERED BY AI.</span></h1>
+    <p class="text-xl text-gray-400 max-w-2xl">
+        Turn your skills, projects and potential into recruiter-ready resumes, portfolios and applications.
+    </p>
+    <div class="flex space-x-4 mt-8">
+        <a href="/auth/register" class="btn-primary text-lg px-8 py-3">Build My Career Profile</a>
+        <a href="#features" class="btn-secondary text-lg px-8 py-3">Explore AI Features</a>
+    </div>
+</div>
+{% endblock %}

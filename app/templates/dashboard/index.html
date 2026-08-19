@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="flex flex-col space-y-8 animate-fade-in">
+    <header class="flex justify-between items-end">
+        <div>
+            <h1 class="text-4xl font-bold">Good evening, {{ user.full_name }}</h1>
+            <p class="text-gray-400 mt-2">Welcome to your Career Command Center.</p>
+        </div>
+        <a href="/onboarding" class="btn-primary">Complete Profile</a>
+    </header>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="glass-card p-6 rounded-xl border border-gray-800">
+            <h3 class="text-sm text-gray-400 mb-2">Career Readiness</h3>
+            <div class="text-3xl font-bold text-gradient">15%</div>
+            <div class="w-full bg-gray-800 rounded-full h-2 mt-4">
+                <div class="bg-primary h-2 rounded-full" style="width: 15%"></div>
+            </div>
+        </div>
+        <div class="glass-card p-6 rounded-xl border border-gray-800">
+            <h3 class="text-sm text-gray-400 mb-2">Resume Score</h3>
+            <div class="text-3xl font-bold">--</div>
+            <p class="text-xs text-gray-500 mt-2">Generate a resume first</p>
+        </div>
+        <div class="glass-card p-6 rounded-xl border border-gray-800">
+            <h3 class="text-sm text-gray-400 mb-2">Portfolio Score</h3>
+            <div class="text-3xl font-bold">--</div>
+            <p class="text-xs text-gray-500 mt-2">Build a portfolio first</p>
+        </div>
+        <div class="glass-card p-6 rounded-xl border border-gray-800">
+            <h3 class="text-sm text-gray-400 mb-2">Profile Strength</h3>
+            <div class="text-3xl font-bold">20%</div>
+            <p class="text-xs text-gray-500 mt-2">Add more details</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
