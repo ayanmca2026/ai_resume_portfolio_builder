@@ -16,6 +16,7 @@ async def login_page(request: Request):
 
 @router.post("/login")
 async def login(
+    request: Request,
     response: Response,
     email: str = Form(...),
     password: str = Form(...),
@@ -23,7 +24,7 @@ async def login(
 ):
     user = db.query(User).filter(User.email == email).first()
     if not user or not verify_password(password, user.hashed_password):
-        return templates.TemplateResponse(request, "auth/login.html", {"request": {}, "error": "Invalid credentials"})
+        return templates.TemplateResponse(request, "auth/login.html", {"request": request, "error": "Invalid credentials"})
     
     access_token = create_access_token(data={"sub": user.email})
     redirect_resp = RedirectResponse(url="/dashboard", status_code=status.HTTP_302_FOUND)
@@ -42,6 +43,7 @@ async def register_page(request: Request):
 
 @router.post("/register")
 async def register(
+    request: Request,
     email: str = Form(...),
     password: str = Form(...),
     full_name: str = Form(...),
@@ -49,7 +51,7 @@ async def register(
 ):
     db_user = db.query(User).filter(User.email == email).first()
     if db_user:
-        return templates.TemplateResponse("auth/register.html", {"request": {}, "error": "Email already registered"})
+        return templates.TemplateResponse(request, "auth/register.html", {"request": request, "error": "Email already registered"})
     
     hashed_password = get_password_hash(password)
     new_user = User(email=email, hashed_password=hashed_password, full_name=full_name)
