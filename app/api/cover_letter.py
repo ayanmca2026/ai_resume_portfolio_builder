@@ -8,7 +8,7 @@ from app.database.database import get_db
 from app.ai.cover_letter import generate_cover_letter
 from app.ai.career_twin import build_career_twin
 
-router = APIRouter(prefix="/cover-letter", tags=["cover_letter"])
+router = APIRouter(tags=["cover_letter"])
 templates = Jinja2Templates(directory="app/templates")
 
 @router.get("/", response_class=HTMLResponse)

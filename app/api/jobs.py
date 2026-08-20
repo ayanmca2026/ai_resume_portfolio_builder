@@ -7,7 +7,7 @@ from app.database.database import get_db
 from app.api.auth import get_current_user_from_cookie
 from app.models.application import JobApplication
 
-router = APIRouter(prefix="/jobs", tags=["jobs"])
+router = APIRouter(tags=["jobs"])
 templates = Jinja2Templates(directory="app/templates")
 
 @router.get("/", response_class=HTMLResponse)

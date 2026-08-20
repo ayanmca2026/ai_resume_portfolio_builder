@@ -13,7 +13,7 @@ from app.ai.skill_analyzer import analyze_skill_gap
 from app.ai.career_coach import coach_chat
 from app.ai.interview_simulator import generate_interview_questions, evaluate_interview_answer
 
-router = APIRouter(prefix="/career", tags=["career"])
+router = APIRouter(tags=["career"])
 templates = Jinja2Templates(directory="app/templates")
 
 @router.get("/", response_class=HTMLResponse)

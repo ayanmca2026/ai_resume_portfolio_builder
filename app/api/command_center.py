@@ -9,7 +9,7 @@ from app.api.auth import get_current_user_from_cookie
 from app.ai.career_twin import build_career_twin
 from app.ai.command_router import route_command
 
-router = APIRouter(prefix="/command-center", tags=["command_center"])
+router = APIRouter(tags=["command_center"])
 templates = Jinja2Templates(directory="app/templates")
 
 @router.get("/", response_class=HTMLResponse)

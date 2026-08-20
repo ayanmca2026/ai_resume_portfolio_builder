@@ -9,7 +9,7 @@ from app.api.auth import get_current_user_from_cookie
 from app.database.database import get_db
 from app.ai.ats_engine import scan_ats
 
-router = APIRouter(prefix="/ats", tags=["ats"])
+router = APIRouter(tags=["ats"])
 templates = Jinja2Templates(directory="app/templates")
 
 @router.get("/", response_class=HTMLResponse)

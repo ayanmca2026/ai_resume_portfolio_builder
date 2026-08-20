@@ -12,7 +12,7 @@ from app.documents.pdf import generate_resume_pdf
 from app.documents.docx_gen import generate_resume_docx
 from app.models.resume import Resume
 
-router = APIRouter(prefix="/resume", tags=["resume"])
+router = APIRouter(tags=["resume"])
 templates = Jinja2Templates(directory="app/templates")
 
 @router.get("/", response_class=HTMLResponse)

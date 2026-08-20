@@ -8,7 +8,7 @@ from app.database.database import get_db
 from app.ai.career_twin import build_career_twin
 from app.portfolio.generator import generate_portfolio_html
 
-router = APIRouter(prefix="/portfolio", tags=["portfolio"])
+router = APIRouter(tags=["portfolio"])
 templates = Jinja2Templates(directory="app/templates")
 
 @router.get("/", response_class=HTMLResponse)
